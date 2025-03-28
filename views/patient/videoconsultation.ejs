@@ -1,0 +1,42 @@
+<%- layout("./layouts/patientboilerplate") %>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-header text-white" style="background-color: #0D948B;">
+          <h3 class="mb-0", style = "align-items: center;">Book a Video Consultation</h3>
+        </div>
+        <div class="card-body">
+          <form action="/videoconsultation/book" method="POST">
+            <div class="mb-3">
+              <label for="doctorId" class="form-label">Select Doctor</label>
+              <select name="doctorId" id="doctorId" class="form-select" required>
+                <% doctors.forEach(function(doctor) { %>
+                  <option value="<%= doctor._id %>"><%= doctor.username %></option>
+                <% }); %>
+              </select>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="appointmentDate" class="form-label">Appointment Date</label>
+                <input type="date" id="appointmentDate" name="appointmentDate" class="form-control" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="timeSlot" class="form-label">Time Slot</label>
+                <input type="time" id="timeSlot" name="timeSlot" class="form-control" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="symptoms" class="form-label">Symptoms</label>
+              <textarea id="symptoms" name="symptoms" class="form-control" rows="4" placeholder="Enter your symptoms here..." required></textarea>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn" style="background-color: #0D948B; color: white; padding: 10px 20px;">Start Video Call</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

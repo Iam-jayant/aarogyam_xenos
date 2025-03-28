@@ -1,0 +1,22 @@
+.signup-role-container {
+    height: 100vh !important;
+    width: 50vw !important;
+    position: absolute;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-role-inner-container {
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 5rem;
+}
+
+.image-section {
+    height: 100vh;
+    width: 45vw;
+    position: absolute;
+    left: 100px;
+}

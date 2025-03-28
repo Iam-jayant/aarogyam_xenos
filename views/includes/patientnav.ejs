@@ -1,0 +1,201 @@
+<style>
+  body {
+      background-color: #ffffff;
+      color: #333333;
+      transition: margin-left 0.3s ease-in-out;
+  }
+
+  /* Sidebar Styles */
+  .sidebar {
+      background-color: #ffffff;
+      border-right: 1px solid #dcdcdc;
+      height: 100vh;
+      position: fixed;
+      width: 250px;
+      padding-top: 20px;
+      transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Smooth transition */
+      left: -250px; /* Initially hidden */
+  }
+
+  /* Show Sidebar */
+  .sidebar.show {
+      left: 0;
+  }
+
+  /* Content shifts when sidebar is visible */
+  .content {
+      margin-left: 0;
+      transition: margin-left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .content.shifted {
+      margin-left: 250px;
+  }
+
+  /* Sidebar Toggle Button */
+  .sidebar-toggle {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 1050;
+      background: #0d9488;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s ease;
+  }
+
+  /* Move toggle button when sidebar is visible */
+  .sidebar.show ~ .sidebar-toggle {
+      left: 260px;
+  }
+
+  /* Hover Effect */
+  .sidebar-toggle:hover {
+    background-color: #0b8079;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(13, 148, 136, 0.3);
+  }
+
+  .sidebar-toggle:focus {
+      outline: none;
+  }
+
+  /* Navigation Link Styles */
+  .nav-link {
+      color: #333333;
+      padding: 12px 18px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+      background-color: #f0f0f0;
+      color: #007bff;
+  }
+
+  .nav-link i {
+      margin-right: 12px;
+  }
+
+  /* Text Styling */
+  .sidebar .text-center {
+      color: #333333;
+  }
+
+  .sidebar .text-muted {
+      color: #666666 !important;
+  }
+
+  /* Profile Image */
+  .profile-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      transition: transform 0.3s ease-in-out;
+  }
+
+  .profile-image:hover {
+      transform: scale(1.05); /* Subtle hover effect */
+  }
+</style>
+
+<!-- Sidebar Toggle Button -->
+<button class="sidebar-toggle">
+  <i class="bi bi-list"></i>
+</button>
+
+<!-- Sidebar -->
+<div class="col-auto sidebar">
+  <div class="text-center py-4">
+      <i class="fa-solid fa-user"></i>
+      <h5 class="mb-0"></h5>
+      <small class="text-muted">Patient</small>
+  </div>
+
+  <nav class="px-3 mt-4">
+      <hr>
+      <ul class="nav flex-column">
+          <li class="nav-item">
+              <a class="nav-link" href="/patient/dashboard">
+                  <i class="bi bi-house-door"></i> Dashboard
+              </a>
+          </li>
+
+          <!-- Appointments Dropdown -->
+          <li class="nav-item">
+              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#appointmentsDropdown">
+                  <i class="bi bi-calendar"></i> Appointments
+              </a>
+              <ul class="collapse list-unstyled px-3" id="appointmentsDropdown">
+                  <li><a class="nav-link" href="/patient/bookappointment">Book Appointment</a></li>
+                  <li><a class="nav-link" href="/patient/todaysappointments">Today's Appointments</a></li>
+                  <li><a class="nav-link" href="#">Upcoming Appointments</a></li>
+                  <li><a class="nav-link" href="#">Past Appointments</a></li>
+              </ul>
+          </li>
+          
+          <li class="nav-item">
+              <a class="nav-link" href="/patient/healthrecords">
+                  <i class="bi bi-clipboard"></i> Medical Records
+              </a>
+          </li>
+
+          <li class="nav-item">
+              <a class="nav-link" href="/patient/prescriptions">
+                  <i class="bi bi-file-text"></i> Prescriptions
+              </a>
+          </li>
+
+          <li class="nav-item">
+              <a class="nav-link" href="/patient/billings">
+                  <i class="bi bi-receipt"></i> Billing
+              </a>
+          </li>
+
+          <li class="nav-item">
+              <a class="nav-link" href="/patient/doctors">
+                  <i class="bi bi-people"></i> Doctors
+              </a>
+          </li>
+
+          <!-- <li class="nav-item">
+              <a class="nav-link" href="#">
+                  <i class="bi bi-chat-square-text"></i> Chat
+              </a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="/videoconsultation">
+                <i class="bi bi-box-arrow-right"></i> Video Consultation
+            </a>
+        </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/logout">
+                  <i class="bi bi-box-arrow-right"></i> Logout
+              </a>
+          </li>
+      </ul>
+  </nav>
+</div>
+
+<!-- JavaScript for Sidebar Toggle -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      const sidebar = document.querySelector(".sidebar");
+      const toggleButton = document.querySelector(".sidebar-toggle");
+      const content = document.querySelector(".content");
+
+      toggleButton.addEventListener("click", function () {
+          sidebar.classList.toggle("show");
+          content.classList.toggle("shifted");
+      });
+  });
+</script>

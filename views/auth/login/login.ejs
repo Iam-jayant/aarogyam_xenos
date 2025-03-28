@@ -1,0 +1,143 @@
+<div class="row mt-3 justify-content-center text-center">
+    <div class="col-12">
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-8 min-vh-100 d-flex flex-column align-items-center">
+        <div class="login-container text-center">
+            <div class="signup-image d-flex justify-content-center">
+                <img src="/signup-image.png" alt="Signup">
+            </div>
+            <form action="/login" method="POST" class="needs-validation" novalidate>
+                <div class="input-box">
+                    <label for="username" class="form-label">Username</label>
+                    <div class="input-container">
+                        <ion-icon name="person-outline"></ion-icon>
+                        <input type="text" name="username" id="username" placeholder="Enter username" class="form-control" required>
+                    </div>
+                </div>
+                <div class="input-box">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-container">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        <input type="password" name="password" id="password" placeholder="Enter password" class="form-control" required autocomplete="current-password">
+                        <ion-icon class="show-hide" name="eye-outline"></ion-icon>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn login-btn">Log in</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const togglePassword = document.querySelector(".show-hide");
+        const passwordInput = document.getElementById("password");
+
+        togglePassword.addEventListener("click", function () {
+            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+            togglePassword.setAttribute("name", passwordInput.type === "password" ? "eye-outline" : "eye-off-outline");
+        });
+    });
+</script>
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<style>
+    * {
+        font-family: "Poppins", sans-serif;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        user-select: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #0d948942;
+        height: 100vh;
+    }
+    
+    .login-container {
+        background: hsl(213, 85%, 97%);
+        padding: 2em;
+        border-radius: 30px;
+        box-shadow: 0 0 2em hsl(231, 62%, 94%);
+        width: 100%;
+        max-width: 400px;
+    }
+    
+    .signup-image {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1em;
+    }
+    
+    .signup-image img {
+        width: 100%;
+        max-width: 250px;
+        height: auto;
+    }
+    
+    @media (max-width: 768px) {
+        .login-container {
+            width: 90%;
+            padding: 2em;
+        }
+    }
+    
+    .input-box {
+        margin-bottom: 1.5em;
+    }
+    
+    .input-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        background: #fff;
+        padding: 1em;
+        border-radius: 20px;
+        box-shadow: 0 0 2em hsl(231, 62%, 94%);
+    }
+    
+    .input-container ion-icon {
+        color: hsl(0, 0%, 30%);
+    }
+    
+    .input-container input {
+        flex: 1;
+        border: none;
+        outline: none;
+        background: transparent;
+    }
+    
+    .show-hide {
+        cursor: pointer;
+    }
+    
+    .login-btn {
+        padding: 1em;
+        background: #0d9488;
+        color: #fff;
+        border: none;
+        border-radius: 30px;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+        transition: 0.3s ease;
+    }
+    
+    .login-btn:hover {
+        background-color: #0b8079;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(13, 148, 136, 0.3);
+    }
+</style>

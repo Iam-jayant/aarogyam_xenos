@@ -1,0 +1,59 @@
+<%- layout("./layouts/doctorboilerplate") %>
+
+<style>
+    .card {
+        border-radius: 15px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        transition: 0.3s;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    .btn-custom {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+</style>
+
+<body>
+    <div class="container-fluid container">
+        <h2 class="">Health Records for <%= patient.username %></h2>
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+            <% if (healthrecords && healthrecords.length > 0) { %>
+                <% for (let record of healthrecords) { %>
+                    <div class="col">
+                        <div class="card">
+                            <h5 class="text-dark">
+                                <i class="fa-solid fa-notes-medical"></i> Health Record
+                            </h5>
+                        
+                            <p><strong>Disease:</strong> <%= record.disease %></p>
+                            <p><strong>Condition:</strong> <%= record.symptoms %></p>
+                            <% if (record.attachments && record.attachments.length > 0) { %>
+                                <p><strong>Attachments:</strong></p>
+                                <ol>
+                                    <% for (let file of record.attachments) { %>
+                                        <li class="ps-2">
+                                            <a href="/<%= file %>" class="btn btn-primary me-2" target="_blank">
+                                                <i class="fa-solid fa-eye"></i> View
+                                            </a>
+                                            <a href="/<%= file %>" class="btn btn-success" target="_blank" download>
+                                                <i class="fa-solid fa-download"></i> Download
+                                            </a>
+                                        </li>
+                                    <% } %>
+                                </ol>
+                            <% } else { %>
+                                <p class="text-muted">No attachments available</p>
+                            <% } %>
+                        </div>
+                    </div>
+                <% } %>
+            <% } else { %>
+                <p class="text-muted">No health records available</p>
+            <% } %>
+        </div>
+    </div>
+</body>

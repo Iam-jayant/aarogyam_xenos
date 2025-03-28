@@ -1,0 +1,135 @@
+<%- layout("./layouts/patientboilerplate") %>
+
+<style>
+  .dashboard-container {
+    padding: 0 20px 20px 20px;
+    color: #333;
+  }
+
+  .dashboard-header span {
+    font-size: 14px;
+    color: #888;
+  }
+
+  /* Parent container to align both sections horizontally */
+  .dashboard-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-top: 15px;
+  }
+
+  .welcome-card {
+    background: #f8f9fd;
+    padding: 20px;
+    border-radius: 12px;
+    flex: 1; /* Takes available space */
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .welcome-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .welcome-text h3 {
+    font-weight: normal;
+    color: #666;
+  }
+
+  .patient-name {
+    color: #007bff;
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  .welcome-text p {
+    font-size: 14px;
+    color: #555;
+    max-width: 600px;
+    min-height: 100px;
+    line-height: 1.5;
+  }
+
+  /* Patient details box */
+  .patient-info {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0; /* Prevents shrinking */
+  }
+
+  .patient-info h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .patient-info ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .patient-info li {
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #444;
+  }
+
+  .patient-info li strong {
+    color: #222;
+  }
+
+  /* Responsive: Stack items on smaller screens */
+  @media (max-width: 768px) {
+    .dashboard-content {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+</style>
+
+<div class="dashboard-container container">
+  <div class="dashboard-header">
+    <h2>Dashboard</h2>
+  </div>
+
+  <!-- Horizontal Layout -->
+  <div class="dashboard-content">
+    <!-- Welcome Card -->
+    <div class="welcome-card">
+      <div class="welcome-content">
+        <div class="welcome-text">
+          <h3>Welcome back</h3>
+          <i class="fa-solid fa-user fs-5"></i>
+          <span class="patient-name">&nbsp;<%= patient.username %></span>
+          <p>
+            We would like to take this opportunity to welcome you to our practice and 
+            thank you for choosing our physicians to participate in your healthcare. 
+            We look forward to providing you with personalized, comprehensive healthcare 
+            focusing on wellness and prevention.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Patient Info -->
+     <!-- temp comment -->
+    <div class="patient-info">
+      <h3>Details:</h3>
+      <ul>
+        <li><strong>Gender:</strong> <%= patient.gender %></li>
+        <li><strong>Age:</strong> <%= patient.age %> years old</li>
+        <li><strong>Height:</strong> <%= patient.height %> cm</li>
+        <li><strong>Weight:</strong> <%= patient.weight %> kg</li>
+        <li><strong>Blood Type:</strong> <%= patient.bloodType %></li>
+      </ul>
+    </div>
+  </div>
+</div>

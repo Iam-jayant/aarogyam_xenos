@@ -1,0 +1,118 @@
+<%- layout("./layouts/doctorboilerplate") %>
+
+<style>
+    body { background-color: #f8f9fa; }
+    
+    .appointment-form-container {
+        max-width: 100%;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-header {
+        font-size: 22px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .success-message {
+        text-align: center;
+        color: green;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+</style>
+
+<div class="container">
+    <div class="form-header">
+        <h2><strong><%= appointment.patientId.username %></strong>'s Appointment</h2>
+    </div>
+    <div class="appointment-form-container mt-3">
+        <form action="/doctor/appointments/addAppointmentDetails/<%= appointment._id %>" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="patient[username]" required value="<%= appointment.patientId.username %>">
+            </div>
+        
+            <div class="row">
+                <div class="col-6 form-group">
+                    <label>Email</label>
+                    <input type="email" name="patient[email]" value="<%= appointment.patientId.email %>" required>
+                </div>
+        
+                <div class="col-6 form-group">
+                    <label>Gender</label>
+                    <select name="patient[gender]" required>
+                        <option value="male" <%= appointment.patientId.gender === "male" ? "selected" : "" %>>Male</option>
+                        <option value="female" <%= appointment.patientId.gender === "female" ? "selected" : "" %>>Female</option>
+                        <option value="other" <%= appointment.patientId.gender === "other" ? "selected" : "" %>>Other</option>
+                    </select>
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <label>Appointment Date</label>
+                <input type="date" name="patient[appointmentDate]" value="<%= appointment.date.toISOString().split('T')[0] %>" required>
+            </div>
+        
+            <div class="form-group">
+                <label>Time Slot</label>
+                <select name="patient[timeSlot]" required>
+                    <option value="09:00-09:30" <%= appointment.timeSlot === "09:00-09:30" ? "selected" : "" %>>09:00 - 09:30 AM</option>
+                    <option value="09:30-10:00" <%= appointment.timeSlot === "09:30-10:00" ? "selected" : "" %>>09:30 - 10:00 AM</option>
+                    <option value="10:00-10:30" <%= appointment.timeSlot === "10:00-10:30" ? "selected" : "" %>>10:00 - 10:30 AM</option>
+                    <option value="10:30-11:00" <%= appointment.timeSlot === "10:30-11:00" ? "selected" : "" %>>10:30 - 11:00 AM</option>
+                </select>
+            </div>
+        
+            <div class="form-group">
+                <label>Symptoms</label>
+                <textarea name="patient[symptoms]" placeholder="Describe symptoms"></textarea>
+            </div>
+        
+            <div class="form-group">
+                <label>Disease</label>
+                <input type="text" name="patient[disease]">
+            </div>
+        
+            <div class="form-group">
+                <label>Prescription</label>
+                <input type="file" name="patient[prescription]" multiple>
+            </div>
+        
+            <div class="form-group">
+                <label>Medical Reports</label>
+                <input type="file" name="patient[medicalReports]" multiple>
+            </div>
+        
+            <div class="form-group">
+                <label>Upload Bill (PDF, Images, etc.)</label>
+                <input type="file" name="patient[bill]" multiple>
+            </div>
+        
+            <button class="btn btn-primary" type="submit">Save Appointment</button>
+        </form>        
+    </div>
+</div>

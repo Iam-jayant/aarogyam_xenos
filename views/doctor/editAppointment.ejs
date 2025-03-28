@@ -1,0 +1,126 @@
+<%- layout("./layouts/doctorboilerplate") %>
+
+<style>
+    body { background-color: #f8f9fa; }
+    
+    .appointment-form-container {
+        max-width: 100%;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-header {
+        font-size: 22px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .success-message {
+        text-align: center;
+        color: green;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+</style>
+
+<div class="container">
+    <div class="form-header">
+        <h2><strong><%= appointment.patientId.username %></strong>'s Appointment</h2>
+    </div>
+    <div class="appointment-form-container mt-3">
+      <form action="/doctor/appointments/edit/<%= appointment._id %>" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" class="form-control" name="patient[username]" value="<%= appointment.patientId.username %>"/>
+        </div>
+      
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" class="form-control" name="patient[email]" value="<%= appointment.patientId.email %>"/>
+            </div>
+          </div>
+      
+          <div class="col-6">
+            <div class="form-group">
+              <label>Gender</label>
+              <input type="text" class="form-control" name="patient[gender]" value="<%= appointment.patientId.gender %>"/>
+            </div>
+          </div>
+        </div>
+      
+        <div class="form-group">
+          <label>Appointment Date</label>
+          <input type="date" class="form-control" name="patient[appointmentDate]" value="<%= appointment.date.toISOString().split('T')[0] %>" />
+        </div>
+      
+        <div class="form-group">
+          <label>Time Slot</label>
+          <input type="text" class="form-control" name="patient[timeSlot]" value="<%= appointment.timeSlot %>" />
+        </div>
+      
+        <div class="form-group">
+          <label>Symptoms:</label>
+          <textarea class="form-control" name="patient[symptoms]"><%= appointment.summary %></textarea>
+        </div>
+      
+        <div class="form-group">
+          <label>Disease</label>
+          <input type="text" class="form-control" name="patient[disease]" value="<%= appointment.disease %>" />
+        </div>
+      
+        <div class="form-group">
+          <label>Prescription</label>
+          <input type="file" class="form-control-file" name="patient[prescription]" />
+          <% if (appointment.attachments.length > 0) { %>
+            <p>Current File: <a class="btn btn-success mt-3" target="_blank" href="/<%= appointment.attachments[0] %>">View</a></p>
+          <% } %>
+        </div>
+      
+        <div class="form-group">
+          <label>Medical Reports</label>
+          <input type="file" class="form-control-file" name="patient[medicalReports]" multiple />
+          <% if (healthRecord.attachments.length > 0) { %>
+            <p>Current Reports:
+              <% healthRecord.attachments.forEach((report) => { %>
+                <a class="btn btn-success mt-3" target="_blank" href="/<%= report %>">View</a>
+              <% }) %>
+            </p>
+          <% } %>
+        </div>
+      
+        <div class="form-group">
+          <label>Billing Invoice</label>
+          <input type="file" class="form-control-file" name="patient[bill]" />
+          <% if (billing && billing.attachments.length > 0) { %>
+            <p>Current Bill: <a class="btn btn-success mt-3" target="_blank" href="/<%= billing.attachments[0] %>">View</a></p>
+          <% } %>
+        </div>
+      
+        <button type="submit" class="btn btn-primary">Update Appointment</button>
+      </form>                
+    </div>
+</div>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Sign Up</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #b8e0db;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .card {
+            background-color: #f5f7f8;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            width: 500px;
+            max-width: 90%;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .profile-upload {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .profile-upload-circle {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #f0f8fa;
+            border: 2px solid #009688;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .profile-upload-circle img {
+            width: 100px;
+            height: 100px;
+        }
+
+        .edit-icon {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background-color: #009688;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .edit-icon svg {
+            width: 15px;
+            height: 15px;
+            fill: white;
+        }
+        
+        .upload-area {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .upload-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid #0cbc8b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .upload-icon img {
+            max-width: 50%;
+            max-height: 50%;
+        }
+        
+        .upload-icon .leaf {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 15px;
+            height: 15px;
+            background-color: #0cbc8b;
+            border-radius: 50%;
+        }
+        
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-top: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-control {
+            flex: 1;
+            position: relative;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background-color: white;
+            font-size: 14px;
+            color: #333;
+            box-sizing: border-box;
+        }
+        
+        input::placeholder {
+            color: #999;
+        }
+        
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+        }
+        
+        .btn {
+            background-color: #0cbc8b;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: ease 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #0b8079;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(13, 148, 136, 0.3);
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .login-link a {
+            color: #0cbc8b;
+            text-decoration: none;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0cbc8b;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <div class="profile-upload">
+                <label for="profile" class="profile-upload-circle">
+                    <img src="/api/placeholder/100/100" alt="Upload Image">
+                    <div class="edit-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                        </svg>
+                    </div>
+                </label>
+                <input type="file" name="profile" id="profile" accept="image/*" required style="display: none;">
+            </div>
+            <h1>Patient Sign up</h1>
+        </div>
+        
+        <form action="/signup/patient" method="POST">
+            <div class="form-group">
+                <div class="form-control">
+                    <input type="email" id="email" name="patient[email]" placeholder="Enter email" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-control">
+                    <input type="text" id="username" name="patient[username]" placeholder="Enter username" required>
+                </div>
+                <div class="form-control">
+                    <input type="password" id="password" name="patient[password]" placeholder="Enter password" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-control">
+                    <select id="gender" name="patient[gender]" required>
+                        <option value="" selected disabled>Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-control">
+                    <input type="number" id="age" name="patient[age]" placeholder="Enter age" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-control">
+                    <input type="number" id="height" name="patient[height]" placeholder="Enter height (cm)">
+                </div>
+                <div class="form-control">
+                    <input type="number" id="weight" name="patient[weight]" placeholder="Enter weight (kg)">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="form-control">
+                    <select id="bloodType" name="patient[bloodType]">
+                        <option value="" selected disabled>Select Blood Type</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn">Sign up</button>
+            </div>
+            
+            <div class="login-link">
+                Already have an account? <a href="/login">Log in</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fileInput = document.getElementById("profile");
+            const imagePreview = document.querySelector(".profile-upload-circle img");
+    
+            fileInput.addEventListener("change", function () {
+                const file = fileInput.files[0]; // Get the selected file
+                if (file) {
+                    const reader = new FileReader(); // Create a FileReader to read the image
+    
+                    reader.onload = function (e) {
+                        imagePreview.src = e.target.result; // Set the preview image source
+                    };
+    
+                    reader.readAsDataURL(file); // Convert image to Base64 URL
+                }
+            });
+        });
+    </script>    
+</body>
+</html>

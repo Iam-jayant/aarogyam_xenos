@@ -1,0 +1,209 @@
+<%- layout("./layouts/patientboilerplate") %>
+
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .appointment-form-container {
+    max-width: 850px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.6s ease-in-out;
+  }
+
+  .form-header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.3s;
+  }
+
+  .form-header:hover {
+    color: #007bff;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+    color: #34495e;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: 0.3s;
+    outline: none;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+  }
+
+  .error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    border: none;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #0056b3, #003f7f);
+    transform: scale(1.05);
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .appointment-form-container {
+      width: 90%;
+      padding: 20px;
+    }
+  }
+</style>
+
+<div class="container">
+  <div class="appointment-form-container">
+    <div class="form-header">
+      <h2>Book an Appointment</h2>
+    </div>
+
+    <form id="appointmentForm" action="/bookappointment" method="POST">
+      <div class="row">
+        <div class="col-6 form-group">
+          <label>First Name</label>
+          <input type="text" name="patient[firstName]" required>
+        </div>
+
+        <div class="col-6 form-group">
+          <label>Last Name</label>
+          <input type="text" name="patient[lastName]" required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6 form-group">
+          <label>Gender</label>
+          <select name="patient[gender]" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="col-6 form-group">
+          <label>Mobile</label>
+          <input type="text" id="mobile" name="patient[mobile]" required>
+          <div class="error-message" id="mobileError">Only numbers allowed (10 digits).</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="email" name="patient[email]" required>
+        <div class="error-message" id="emailError">Enter a valid email address.</div>
+      </div>
+
+      <div class="form-group">
+        <label>Select Doctor</label>
+        <select name="patient[doctorId]" required>
+          <% doctors.forEach(doctor => { %>
+            <option value="<%= doctor._id %>"><%= doctor.username %></option>
+          <% }); %>
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="col-6 form-group">
+          <label>Appointment Date</label>
+          <input type="date" name="patient[appointmentDate]" required>
+        </div>
+
+        <div class="col-6 form-group">
+          <label>Choose Appointment Time</label>
+          <input type="time" name="patient[timeSlot]" required class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Reason/Condition</label>
+        <textarea name="patient[reason]" placeholder="Briefly describe your condition..."></textarea>
+      </div>
+
+      <button class="btn-primary" type="submit">Confirm Appointment</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.getElementById('mobile').addEventListener('input', function () {
+    const mobileInput = this.value;
+    const mobileError = document.getElementById('mobileError');
+    
+    if (!/^\d{0,10}$/.test(mobileInput)) {
+      this.value = mobileInput.replace(/\D/g, '').slice(0, 10);
+      mobileError.style.display = 'block';
+    } else {
+      mobileError.style.display = 'none';
+    }
+  });
+
+  document.getElementById('email').addEventListener('input', function () {
+    const emailInput = this.value;
+    const emailError = document.getElementById('emailError');
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(emailInput)) {
+      emailError.style.display = 'block';
+    } else {
+      emailError.style.display = 'none';
+    }
+  });
+  //comments 
+
+  document.getElementById('appointmentForm').addEventListener('submit', function (e) {
+    const mobile = document.getElementById('mobile').value;
+    if (mobile.length < 10) {
+      e.preventDefault();
+      document.getElementById('mobileError').style.display = 'block';
+    } else {
+      alert("Appointment Created Successfully!");
+    }
+  });
+</script>

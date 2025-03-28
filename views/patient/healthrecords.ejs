@@ -1,0 +1,95 @@
+<%- layout("./layouts/patientboilerplate") %>
+
+<style>
+    body { background-color: #f8f9fa; }
+
+    .record-container {
+        max-width: 100%;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .page-header {
+        font-size: 22px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .card {
+        background: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+    }
+
+    .record-card h4 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .record-card p {
+        margin: 5px 0;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .download-link {
+        display: inline-block;
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .download-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="page-header">
+        <h2 class="text-center">Health Records</h2>
+    </div>
+
+    <div class="record-container">
+        <% if (records.length === 0) { %>
+            <div class="alert alert-warning text-center">No medical records found.</div>
+        <% } else { %>
+            <% records.forEach(record => { %>
+                <div class="shadow-sm mb-3">
+                    <div class="card-body">
+                        <h4 class="card-title"><%= record.recordType %></h4>
+                        <p class="card-text"><%= record.summary %></p>
+                        <p><strong>Doctor:</strong> <%= record.doctorId.username %></p>
+
+                        <% if (record.attachments && record.attachments.length > 0) { %>
+                            <p><strong>Attachments:</strong></p>
+                            <ul class="list-unstyled">
+                                <% record.attachments.forEach((attachment, index) => { %>
+                                    <li>
+                                        <a href="/<%= attachment %>" class="btn btn-success" target="_blank">
+                                            <i class="fas fa-eye"></i> View 
+                                        </a>
+                                        <a href="/<%= attachment %>" class="btn btn-primary" download>
+                                            <i class="fas fa-file-download"></i> Download
+                                        </a><br>
+                                    </li>
+                                <% }); %>
+                            </ul>
+                        <% } else { %>
+                            <p class="text-muted">No attachments available.</p>
+                        <% } %>   
+                        
+                        <p class="text-muted"><strong>Created On:</strong> <%= new Date(record.created_at).toDateString() %></p>
+                    </div>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+</div>

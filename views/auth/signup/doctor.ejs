@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Sign up</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #daf0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .signup-container {
+            background-color: #f0f8fa;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .signup-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .signup-header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        
+        .profile-upload {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .profile-upload-circle {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #f0f8fa;
+            border: 2px solid #009688;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .profile-upload-circle img {
+            width: 100px;
+            height: 100px;
+        }
+        
+        .edit-icon {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background-color: #009688;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .edit-icon svg {
+            width: 15px;
+            height: 15px;
+            fill: white;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: #009688;
+        }
+        
+        .input-icon {
+            position: relative;
+        }
+        
+        .input-icon i {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: #666;
+        }
+        
+        .input-icon input {
+            padding-left: 40px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #009688;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            margin-top: 15px;
+        }
+        
+        .submit-btn:hover {
+            background-color: #0b8079;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(13, 148, 136, 0.3);
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .login-link a {
+            color: #009688;
+            text-decoration: none;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .check-icon {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: #009688;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .signup-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <form action="/signup/doctor" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+            <div class="signup-header">
+                <div class="profile-upload">
+                    <label for="profile" class="profile-upload-circle">
+                        <img src="/api/placeholder/100/100" alt="Upload Image">
+                        <div class="edit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                            </svg>
+                        </div>
+                    </label>
+                    <input type="file" name="profile" id="profile" accept="image/*" required style="display: none;">
+                </div>
+                <h1>Doctor Sign up</h1>
+            </div>
+            
+            <div class="form-group input-icon">
+                <input type="email" name="doctor[email]" id="email" class="form-control" placeholder="Enter email" required>
+                <i>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#666" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                </i>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group input-icon">
+                    <input type="text" name="doctor[username]" id="username" class="form-control" placeholder="Enter username" required>
+                    <i>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="#666" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    </i>
+                </div>
+                <div class="form-group input-icon">
+                    <input type="password" name="doctor[password]" id="password" class="form-control" placeholder="Enter password" required autocomplete="new-password">
+                    <i>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="#666" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                        </svg>
+                    </i>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="text" name="doctor[specialization]" id="specialization" class="form-control" placeholder="Enter specialization" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" name="doctor[experience]" id="experience" class="form-control" placeholder="Enter years of experience" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="text" name="doctor[hospital]" id="hospital" class="form-control" placeholder="Enter hospital name" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" name="doctor[consultantFees]" id="consultantFees" class="form-control" placeholder="Enter fees" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <input type="text" name="doctor[phone]" id="phone" class="form-control" placeholder="Enter phone number" required>
+            </div>
+            
+            <button type="submit" class="submit-btn">Sign up</button>
+            
+            <div class="login-link">
+                <span>Already have an account? <a href="/login">Log in</a></span>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fileInput = document.getElementById("profile");
+            const imagePreview = document.querySelector(".profile-upload-circle img");
+    
+            fileInput.addEventListener("change", function () {
+                const file = fileInput.files[0]; // Get the selected file
+                if (file) {
+                    const reader = new FileReader(); // Create a FileReader to read the image
+    
+                    reader.onload = function (e) {
+                        imagePreview.src = e.target.result; // Set the preview image source
+                    };
+    
+                    reader.readAsDataURL(file); // Convert image to Base64 URL
+                }
+            });
+        });
+    </script> 
+</body>
+</html>

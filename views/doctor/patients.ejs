@@ -1,0 +1,134 @@
+<%- layout("./layouts/doctorboilerplate") %>
+
+<style>
+    .filters {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .filter {
+        text-align: center;
+        margin-right: 2rem;
+        opacity: 0.7;
+    }
+    .filter p {
+        font-size: 0.9rem;
+    }
+    .filter:hover {
+        opacity: 1;
+        cursor: pointer;
+    }
+    .card {
+        border-radius: 15px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        transition: 0.3s;
+        padding: 1rem;
+        position: relative;
+        z-index: 1;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    .btn-custom {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+</style>
+
+<body>
+    <div class="container-fluid container">
+        <h2 class="">My Patients</h2>
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+            <% if (doctor.patients.length > 0) { %> 
+                <% for (let patient of doctor.patients) { %>
+                    <div class="col">
+                        <div class="card">
+                            <h4 class="text-primary">
+                                <i class="fa-solid fa-user"></i> <%= patient.username %>
+                            </h4>
+                            <p><strong>Email:</strong> <%= patient.email %></p>
+                            <p><strong>Gender:</strong> <%= patient.gender %></p>
+                            <p><strong>Age:</strong> <%= patient.age %> years</p>
+                            <p><strong>Blood Type:</strong> <%= patient.bloodType %></p>
+    
+                            <a href="/doctor/patient/<%= patient._id %>/healthrecords" class="btn btn-primary btn-custom">
+                                <i class="fa-solid fa-notes-medical"></i> Health Records
+                            </a>
+                            <a href="/doctor/<%= doctor._id %>/patient/<%= patient._id %>/prescriptions" class="btn btn-success btn-custom">
+                                <i class="fa-solid fa-file-prescription"></i> Prescriptions
+                            </a>
+                            <a href="#" class="btn btn-secondary btn-custom" onclick="openCertificateModal('<%= patient._id %>')">
+                                <i class="fa-solid fa-file-prescription"></i> Generate Certificate
+                            </a>                            
+                        </div>
+                    </div>
+                <% } %>
+            <% } else { %>
+                <p>No patients found.</p>
+            <% } %>
+        </div>
+    </div>
+</body>
+
+<!-- Modal for Admission & Discharge Dates -->
+<div class="modal fade" id="certificateModal" tabindex="-1" aria-labelledby="certificateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="certificateModalLabel">Enter Admission & Discharge Dates</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="admissionDate">Admission Date:</label>
+                <input type="date" id="admissionDate" class="form-control">
+                <label for="dischargeDate" class="mt-2">Discharge Date:</label>
+                <input type="date" id="dischargeDate" class="form-control">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a type="button" class="btn btn-primary" onclick="submitCertificate()">Generate PDF</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let selectedPatientId = null;
+
+    function openCertificateModal(patientId) {
+        selectedPatientId = patientId;
+        const modal = new bootstrap.Modal(document.getElementById('certificateModal'));
+        modal.show();
+    }
+
+    async function submitCertificate() {
+        const admissionDate = document.getElementById('admissionDate').value;
+        const dischargeDate = document.getElementById('dischargeDate').value;
+
+        if (!admissionDate || !dischargeDate) {
+            alert('Please enter both dates.');
+            return;
+        }
+
+        generateMedicalCertificate(selectedPatientId, admissionDate, dischargeDate);
+    }
+
+    async function generateMedicalCertificate(patientId, admissionDate, dischargeDate) {
+        try {
+            const response = await fetch(`/generate-certificate/${patientId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ admissionDate, dischargeDate })
+            });
+
+            if (response.ok) {
+                const { fileUrl } = await response.json();
+                window.location.href = fileUrl; // Automatically download the PDF
+            } else {
+                console.error('Failed to generate certificate');
+            }
+        } catch (error) {
+            console.error('Error generating certificate:', error);
+        }
+    }
+</script>

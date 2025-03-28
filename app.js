@@ -240,16 +240,36 @@ app.get("/logout", (req, res) => {
 // 🔹 PATIENT ROUTES
 // ------------------------------------
 
+// New corrected code (paste this)
 app.get("/patient/dashboard", async (req, res) => {
   try {
-    const patientId = req.user && req.user._id ? req.user._id : "67b6d14db339e23694c73bf9";
+    const patientId = req.user ? req.user._id : "67b6d14db339e23694c73bf9";
     const patient = await Patient.findById(patientId);
-    if (!patient) return res.status(404).json({ error: "Patient not found" });
+    if (!patient) return res.status(404).send("Patient not found");
 
-    res.render("patient/dashboard", { patient });
+    // Fetch related data
+    const appointments = await Appointment.find({ patientId })
+      .sort({ date: 1 })
+      .limit(3)
+      .populate('doctorId');
+
+    const medicalRecords = await HealthRecord.find({ patientId })
+      .sort({ date: -1 })
+      .limit(3);
+
+    const billing = await Billing.find({ patientId })
+      .sort({ date: -1 })
+      .limit(3);
+
+    res.render("patient/dashboard", {
+      patient,
+      appointments,
+      medicalRecords,
+      billing
+    });
   } catch (err) {
-    console.error("Error fetching patient data:", err);
-    res.status(500).json({ error: "Internal Server Error", details: err.message });
+    console.error("Error fetching dashboard data:", err);
+    res.status(500).send("Internal Server Error");
   }
 });
 
@@ -895,28 +915,7 @@ app.get("/videoconsultation/room/:appointmentId", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.get("/patient/dashboard", async (req, res) => {
-  try {
-    // Ensure the user is logged in and get the patient's data
-    if (!req.user || !req.user._id) {
-      return res.redirect("/login");
-    }
-    const patient = await Patient.findById(req.user._id);
-    if (!patient) return res.status(404).send("Patient not found");
 
-    // Pass the patient object to the dashboard view
-    res.render("dashboard", {
-      patient, 
-      // pass other data if needed, for example:
-      upcomingAppointments,
-      healthRecords,
-      bills
-    });
-  } catch (err) {
-    console.error("Error fetching patient data:", err);
-    res.status(500).send("Internal Server Error");
-  }
-});
 
 
 

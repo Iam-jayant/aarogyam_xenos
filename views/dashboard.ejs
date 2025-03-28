@@ -1,327 +1,379 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard</title>
-  <style>
-    .dashboard-container {
-      padding: 0 20px 20px 20px;
-      color: #333;
-    }
+<%- layout("/layouts/boilerplate") %>
 
-    .dashboard-header span {
-      font-size: 14px;
-      color: #888;
-    }
-
-    /* Parent container to align both sections horizontally */
-    .dashboard-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
-      margin-top: 15px;
-    }
-
-    .welcome-card {
-      background: #f8f9fd;
-      padding: 20px;
-      border-radius: 12px;
-      flex: 1;
-      display: flex;
-      align-items: center;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .welcome-content {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .welcome-text h3 {
-      font-weight: normal;
-      color: #666;
-    }
-
-    .patient-name {
-      color: #007bff;
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    .welcome-text p {
-      font-size: 14px;
-      color: #555;
-      max-width: 600px;
-      min-height: 100px;
-      line-height: 1.5;
-    }
-
-    /* Patient details box */
-    .patient-info {
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      width: 300px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      flex-shrink: 0;
-    }
-
-    .patient-info h3 {
-      margin-bottom: 10px;
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .patient-info ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .patient-info li {
-      margin-bottom: 8px;
-      font-size: 16px;
-      color: #444;
-    }
-
-    .patient-info li strong {
-      color: #222;
-    }
-
-    /* Appointments box (shared style) */
-    .appointments-box {
-      background: #f8f9fd;
-      padding: 20px;
-      border-radius: 12px;
-      flex: 1;
-      display: flex;
-      align-items: center;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      margin-top: 20px; /* spacing below existing sections */
-    }
-
-    .appointments-text {
-      display: flex;
-      flex-direction: column; /* Stack text & list vertically */
-      gap: 10px;
-    }
-
-    .appointments-text h3 {
-      font-weight: normal;
-      color: #666;
-      margin: 0;
-    }
-
-    .appointments-text ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .appointments-text li {
-      background: #fff;
-      padding: 8px 12px;
-      border-radius: 8px;
-      margin-bottom: 6px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    }
-
-    .appointments-text a {
-      color: #007bff;
-      text-decoration: none;
-      font-size: 14px;
-      margin-top: 10px;
-    }
-
-    .appointments-text a:hover {
-      text-decoration: underline;
-    }
-
-    /* Two side-by-side boxes (Medical Records & Billing) */
-    .records-billing-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .records-box,
-    .billing-box {
-      background: #f8f9fd;
-      padding: 20px;
-      border-radius: 12px;
-      flex: 1;
-      display: flex;
-      align-items: center;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      min-height: 200px; /* give a bit of vertical space */
-    }
-
-    .records-text,
-    .billing-text {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      width: 100%;
-    }
-
-    .records-text h3,
-    .billing-text h3 {
-      font-weight: normal;
-      color: #666;
-      margin: 0;
-    }
-
-    .records-text ul,
-    .billing-text ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .records-text li,
-    .billing-text li {
-      background: #fff;
-      padding: 8px 12px;
-      border-radius: 8px;
-      margin-bottom: 6px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    }
-
-    .records-text a,
-    .billing-text a {
-      color: #007bff;
-      text-decoration: none;
-      font-size: 14px;
-      margin-top: 10px;
-    }
-
-    .records-text a:hover,
-    .billing-text a:hover {
-      text-decoration: underline;
-    }
-
-    /* Responsive: Stack items on smaller screens */
-    @media (max-width: 768px) {
-      .dashboard-content {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .records-billing-container {
-        flex-direction: column;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <div class="dashboard-container container">
-    <div class="dashboard-header">
-      <h2>Dashboard</h2>
-    </div>
-
-    <!-- Horizontal Layout for Welcome & Patient Info -->
-    <div class="dashboard-content">
-      <!-- Welcome Card -->
-      <div class="welcome-card">
-        <div class="welcome-content">
-          <div class="welcome-text">
-            <h3>Welcome back</h3>
-            <i class="fa-solid fa-user fs-5"></i>
-            <span class="patient-name">&nbsp;<%= patient.username %></span>
-            <p>
-              We would like to take this opportunity to welcome you to our practice and
-              thank you for choosing our physicians to participate in your healthcare.
-              We look forward to providing you with personalized, comprehensive healthcare
-              focusing on wellness and prevention.
-            </p>
+<div class="landing-container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 hero-content">
+          <h1>Healthcare Management Simplified</h1>
+          <p class="hero-subtitle">
+            Aarogyam is a student-focused healthcare management system designed to securely store and manage health records, streamline medical documentation, and enhance accessibility to healthcare services.
+          </p>
+          <div class="hero-buttons">
+            <a href="/signup" class="btn-custom">Get Started</a>
+            <a href="#features" class="btn-outline-custom">Learn More</a>
           </div>
         </div>
-      </div>
-
-      <!-- Patient Info -->
-      <div class="patient-info">
-        <h3>Details:</h3>
-        <ul>
-          <li><strong>Gender:</strong> <%= patient.gender %></li>
-          <li><strong>Age:</strong> <%= patient.age %> years old</li>
-          <li><strong>Height:</strong> <%= patient.height %> cm</li>
-          <li><strong>Weight:</strong> <%= patient.weight %> kg</li>
-          <li><strong>Blood Type:</strong> <%= patient.bloodType %></li>
-        </ul>
+        <div class="col-lg-6 hero-image">
+          <img src="/img01.png" alt="Healthcare professionals" class="img-fluid" />
+        </div>
       </div>
     </div>
+  </section>
 
-    <!-- Upcoming Appointments Box -->
-    <div class="appointments-box">
-      <div class="appointments-text">
-        <h3>Upcoming Appointments</h3>
-        <ul>
-          <!-- Loop through your upcomingAppointments array -->
-          <% if (upcomingAppointments && upcomingAppointments.length > 0) { %>
-            <% upcomingAppointments.forEach(function(appt) { %>
-              <li>
-                <strong>Date:</strong> <%= appt.date.toDateString() %><br/>
-                <strong>Time:</strong> <%= appt.timeSlot %><br/>
-                <strong>Doctor:</strong> <%= appt.doctorName || 'N/A' %>
-              </li>
-            <% }) %>
-          <% } else { %>
-            <li>No upcoming appointments found.</li>
-          <% } %>
-        </ul>
-        <a href="/patient/todaysappointments">View All Appointments</a>
+  <!-- Features Section -->
+  <section id="features" class="features-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Comprehensive Healthcare Solutions</h2>
+        <p>Everything you need to manage healthcare operations efficiently</p>
       </div>
-    </div>
-
-    <!-- Two Side-by-Side Boxes: Medical Records & Billing -->
-    <div class="records-billing-container">
-      <!-- Medical Records Box -->
-      <div class="records-box">
-        <div class="records-text">
+      
+      <div class="row features-grid">
+        <div class="col-md-4 feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+              <path d="M9 14h6"></path>
+              <path d="M9 10h6"></path>
+              <path d="M12 18h.01"></path>
+            </svg>
+          </div>
           <h3>Medical Records</h3>
-          <ul>
-            <!-- Loop through your healthRecords array -->
-            <% if (healthRecords && healthRecords.length > 0) { %>
-              <% healthRecords.forEach(function(record) { %>
-                <li>
-                  <strong>Disease:</strong> <%= record.disease %><br/>
-                  <strong>Symptoms:</strong> <%= record.symptoms %>
-                </li>
-              <% }) %>
-            <% } else { %>
-              <li>No medical records found.</li>
-            <% } %>
-          </ul>
-          <a href="/patient/healthrecords">View All Records</a>
+          <p>Securely store and access patient medical records with ease, ensuring data privacy and compliance.</p>
         </div>
-      </div>
-
-      <!-- Billing Box -->
-      <div class="billing-box">
-        <div class="billing-text">
-          <h3>Billing</h3>
-          <ul>
-            <!-- Loop through your bills array -->
-            <% if (bills && bills.length > 0) { %>
-              <% bills.forEach(function(bill) { %>
-                <li>
-                  <strong>Invoice No:</strong> <%= bill.invoiceNo %><br/>
-                  <strong>Amount:</strong> $<%= bill.amount %><br/>
-                  <strong>Status:</strong> <%= bill.status %>
-                </li>
-              <% }) %>
-            <% } else { %>
-              <li>No billing records found.</li>
-            <% } %>
-          </ul>
-          <a href="/patient/billings">View All Bills</a>
+        
+        <div class="col-md-4 feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+          </div>
+          <h3>Appointment Management</h3>
+          <p>Streamline scheduling, reduce wait times, and optimize resource allocation with our intuitive system.</p>
+        </div>
+        
+        <div class="col-md-4 feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <h3>Patient-Doctor Communication</h3>
+          <p>Enable seamless communication between healthcare providers and patients for better care coordination.</p>
         </div>
       </div>
     </div>
-  </div>
-</body>
-</html>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Empower Your Healthcare Journey</h2>
+        <p>Experience seamless medical record-keeping, appointment management, and more with Aarogyam.</p>
+        <div class="cta-buttons">
+          <a href="/signup" class="btn-custom">Sign Up Now</a>
+          <a href="/login" class="btn-outline-custom">Login</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  /* General Styles */
+  body {
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-header h2 {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    color: #0d9488;
+  }
+
+  .section-header p {
+    font-size: 1.1rem;
+    color: #666;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9f5f4 100%);
+  }
+
+  .hero-content {
+    padding: 2rem 0;
+  }
+
+  .hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    color: #0d9488;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #555;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .hero-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Features Section */
+  .features-section {
+    padding: 5rem 0;
+    background-color: #fff;
+  }
+
+  .features-grid {
+    margin-top: 3rem;
+  }
+
+  .feature-card {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    margin-bottom: 2rem;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .feature-icon {
+    margin-bottom: 1.5rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #0d9488;
+  }
+
+  .feature-card p {
+    color: #666;
+  }
+
+  /* Stats Section */
+  .stats-section {
+    padding: 4rem 0;
+    background-color: #0d9488;
+    color: white;
+    text-align: center;
+  }
+
+  .stat-item h2 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-item p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+
+  /* Testimonial Section */
+  .testimonial-section {
+    padding: 5rem 0;
+    background-color: #f8f9fa;
+  }
+
+  .testimonial-card {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .testimonial-content p {
+    font-size: 1.2rem;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    color: #555;
+  }
+
+  .testimonial-author h4 {
+    margin-bottom: 0.2rem;
+    color: #0d9488;
+  }
+
+  .testimonial-author p {
+    font-size: 0.9rem;
+    color: #777;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    padding: 5rem 0;
+    background: linear-gradient(135deg, #0d9488 0%, #0b8079 100%);
+    color: white;
+    text-align: center;
+  }
+
+  .cta-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
+
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  /* Button Styles (keeping the original colors) */
+  .btn-custom {
+    background-color: #0d9488;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s ease;
+    display: inline-block;
+  }
+
+  .btn-custom:hover {
+    background-color: #0b8079;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(13, 148, 136, 0.3);
+  }
+
+  .btn-outline-custom {
+    border: 2px solid #0d9488;
+    color: #0d9488;
+    background-color: transparent;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s ease;
+    display: inline-block;
+  }
+
+  .btn-outline-custom:hover {
+    background-color: #0d9488;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(13, 148, 136, 0.3);
+  }
+
+  /* CTA Section - White Button Variant */
+  .cta-section .btn-outline-custom {
+    border: 2px solid white;
+    color: white;
+  }
+
+  .cta-section .btn-outline-custom:hover {
+    background-color: white;
+    color: #0d9488;
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 991px) {
+    .hero-content {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .hero-content h1 {
+      font-size: 2.5rem;
+    }
+
+    .hero-buttons {
+      justify-content: center;
+    }
+
+    .hero-image {
+      margin-top: 2rem;
+    }
+
+    .cta-content h2 {
+      font-size: 2rem;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .cta-buttons a {
+      width: 80%;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .section-header h2 {
+      font-size: 1.8rem;
+    }
+
+    .hero-content h1 {
+      font-size: 2rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+    }
+
+    .feature-card {
+      padding: 1.5rem 1rem;
+    }
+
+    .stat-item {
+      margin-bottom: 2rem;
+    }
+
+    .stat-item h2 {
+      font-size: 2.5rem;
+    }
+
+    .testimonial-content p {
+      font-size: 1rem;
+    }
+  }
+</style>
+

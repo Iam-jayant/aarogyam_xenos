@@ -72,6 +72,15 @@
     </div>
   </section>
 
+  <!-- Chatbot Section -->
+<section id="chatbot-section" class="chatbot-container">
+  <div class="container text-center">
+    <h2>Chat with Our AI Assistant</h2>
+    <p>Get instant assistance from our AI-powered healthcare chatbot.</p>
+    <iframe src="https://vibesync-cyan.vercel.app/vibesync" width="max-width" height="500px" style="border: none; border-radius: 10px;"></iframe>
+  </div>
+</section>
+
   <!-- CTA Section -->
   <section class="cta-section">
     <div class="container">
@@ -375,5 +384,40 @@
       font-size: 1rem;
     }
   }
-</style>
+  .chatbot-container {
+  padding: 4rem 0;
+  background-color: #f8f9fa;
+}
 
+.chatbot-container h2 {
+  font-size: 2rem;
+  color: #0d9488;
+  margin-bottom: 1rem;
+}
+
+.chatbot-container p {
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.chatbot-container iframe {
+  width: 100%;
+  max-width: 1200px;
+  height: 650px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 768px) {
+  .chatbot-container iframe {
+    height: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chatbot-container iframe {
+    height: 350px;
+  }
+}
+
+</style>

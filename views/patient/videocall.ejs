@@ -1,24 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Video Consultation</title>
-  <style>
-    /* Basic styling for full-page video */
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-    }
-    iframe {
-      width: 100%;
-      height: 100vh; /* Full screen */
-      border: none;
-    }
-  </style>
-</head>
-<body>
-  <!-- This iframe loads the Jitsi call -->
-  <iframe src="<%= videoURL %>"></iframe>
-</body>
-</html>
+<%- layout("./layouts/patientboilerplate") %>
+
+<div class="container my-5">
+  <h2 class="text-center">Video Consultation</h2>
+  <div id="videoContainer" style="width: 100%; height: 80vh;"></div>
+</div>
+
+<script src="https://zegocloud.github.io/zego-uikit-prebuilt/ZegoUIKitPrebuilt.js"></script>
+<script>
+  const appID = 1751455231;
+  const serverSecret = "751c1f8d3eafc1ddde7ae48a0c9194e9";
+  const roomID = "<%= roomID %>"; // Get the room ID from EJS
+
+  const userID = "user_" + Math.floor(Math.random() * 1000);
+  const userName = "User" + userID;
+
+  // Generate a token (for dev purposes)
+  const token = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
+
+  const zp = ZegoUIKitPrebuilt.create(token);
+  zp.joinRoom({
+    container: document.getElementById("videoContainer"),
+    scenario: { mode: ZegoUIKitPrebuilt.VideoConference },
+    showScreenSharingButton: true,
+  });
+</script>

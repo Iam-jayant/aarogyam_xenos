@@ -915,7 +915,7 @@ app.get("/videoconsultation/room/:appointmentId", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-
+//video routes 
 
 
 
